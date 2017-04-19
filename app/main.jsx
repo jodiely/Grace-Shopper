@@ -1,5 +1,5 @@
 'use strict'
-//downloads
+// downloads
 import React from 'react'
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 import {render} from 'react-dom'
@@ -13,11 +13,13 @@ import Planets from './components/Planets'
 import Products from './components/Products'
 import Product from './components/Product'
 import NotFound from './components/NotFound'
+import Cart from './components/Cart'
 
 // dispatchers
-import {getPlanets} from './reducers/planets'
-import {getProducts} from './reducers/products'
-import {getReviews} from './reducers/reviews'
+import { getPlanets } from './reducers/planets'
+import { getProducts } from './reducers/products'
+import { fetchOrder } from './reducers/order'
+import { getReviews } from './reducers/reviews'
 
 const onAppEnter = () => {
   axios.get('/api/planets') // test later after db
@@ -46,6 +48,10 @@ const onProductEnter = ({params: {productId}}) => {
     .catch()
 }
 
+const onCartEnter = function(nextRouterSTate) {
+  store.dispatch(fetchOrder()) // will need to pass in order Id
+}
+
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
@@ -54,9 +60,21 @@ render(
         <Route path="/planets" component={Planets} />
         <Route path="/planets/:categoryId" component={Products} onEnter={onPlanetEnter}/>
         <Route path="/products/:productId" component={Product} onEnter={onProductEnter}/>
+        <Route path="/cart" component={Cart} onEnter={onCartEnter} />
       </Route>
       <Route path='*' component={NotFound} />
     </Router>
   </Provider>,
   document.getElementById('main')
 )
+
+/* ------------- CONTAINER ---------------- */
+
+// const mapStateToProps = null;
+// const mapDispatch = dispatch => ({
+//   onCartEnter: () => {
+//     dispatch(fetchItems())
+//   }
+// })
+
+// export default connect(mapStateToProps, mapDispatch)(Routes)
