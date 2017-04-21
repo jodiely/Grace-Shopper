@@ -221,7 +221,7 @@ const orders = seed(Order, ({users}) => ({
     user_id: users.ruth.id
   },
   order2: {
-    status: 'pending',
+    status: 'completed',
     user_id: users.guest.id
   }
 })
