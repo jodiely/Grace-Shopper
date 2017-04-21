@@ -9,7 +9,7 @@ const CREATE = 'CREATE_ITEM'
 /* ------------- ACTION CREATER ---------------- */
 
 const get = order => ({type: GET, order})
-const remove = id => ({type: REMOVE, id})
+const remove = (oId, pId) => ({type: REMOVE, oId, pId})
 const create = item => ({type: CREATE, item})
 
 /* ------------- REDUCERS ---------------- */
@@ -19,10 +19,11 @@ export default function reducer(order = {items: [{product: {}}]}, action) {
   case GET:
     return action.order
   case REMOVE:
-    return order.items.filter(item =>
-        item.productId !== action.id)
+    const newItems = order.items.filter(item =>
+        item.product_id !== action.pId)
+    return { items: newItems }
   case CREATE:
-    return [...order.items, action.order.item]
+    return { items: [...order.items, action.item] }
   default:
     return order
   }
@@ -38,9 +39,9 @@ export const fetchOrder = (id) => dispatch => {
   .catch(err => console.error('Error fetchItems', err))
 }
 
-export const removeItem = id => dispatch => {
-  dispatch(remove(id))
-  axios.delete(`/api/cart/${id}`)
+export const removeItem = (oId, pId) => dispatch => {
+  dispatch(remove(oId, pId))
+  axios.delete(`/api/cart/${oId}/${pId}`)
     .then(res => res.data)
     .catch(err => console.error('Error removeItem', err))
 }

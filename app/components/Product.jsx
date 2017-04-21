@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import { createItem } from '../reducers/order'
 
 class Product extends React.Component {
@@ -77,6 +77,7 @@ class Product extends React.Component {
       order_id: this.props.order.id
     }
     this.props.createItem(itemToAdd)
+    browserHistory.push('/cart')
   }
 }
 
