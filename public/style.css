@@ -44,3 +44,11 @@ p {
   color: white;
   margin: 0;
 }
+
+.form-control {
+  width: 50vw
+}
+
+.control-label {
+  color: white
+}

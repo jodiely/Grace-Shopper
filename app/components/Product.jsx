@@ -94,6 +94,7 @@ const generateOptions = (qty) => {
 
 
 const mapStateToProps = (state) => {
+  // console.log('state.order in products', state)
   return {
     selectedProduct: state.products.selectedProduct,
     reviews: state.reviews.reviews,
